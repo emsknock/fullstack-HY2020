@@ -16,10 +16,11 @@ const Total: FC<{ course: Course }> = ({ course: { parts } }) => <p>
     Number of exercises: {parts.reduce((accu, { exercises }) => accu + exercises, 0)}
 </p>;
 
-const Content: FC<{ course: Course }> = ({ course: { parts } }) => {
-    const Part: FC<Part> = ({ name, exercises }) => <p>{name} {exercises}</p>;
-    return <>{parts.map(Part)}</>;
-};
+const Part: FC<Part> = ({ name, exercises }) => <p>{name} {exercises}</p>;
+
+const Content: FC<{ course: Course }> = ({ course: { parts } }) => <>
+    {parts.map(Part)}
+</>;
 
 const App = () => {
 
