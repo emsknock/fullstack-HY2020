@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
-import axios from "axios";
+import * as db from "./services/db";
+
 import { I_Person } from "./types/person";
 import { Namelist } from "./components/namelist";
 import { NewNameForm } from "./components/newname-form";
@@ -12,17 +13,27 @@ export const App: FC = () => {
 
     const personsToShow = persons.filter(p => p.name.toLowerCase().includes(filter));
 
-    const onNewName = (newPerson: I_Person) => {
-        if(persons.some(p => p.name === newPerson.name))
-            return alert(`${newPerson.name} is already in the phonebook!`);
+    const hydratePersonList = () => db.getAll().then(r => setPersons(r));
 
-        setPersons(s => s.concat(newPerson));
+    const onNewName = (newPerson: Pick<I_Person, "name" | "phone">) => {
+
+        const collision = persons.find(p => p.name === newPerson.name);
+
+        if (!collision)
+            return db.newPerson(newPerson).then(p => setPersons(s => s.concat(p)));
+
+        if (!window.confirm(`${newPerson.name} already exists. Update number?`))
+            return;
+
+        db.updatePerson({ ...newPerson, id: collision.id })
+            .then(n => setPersons(persons.map(p => p.id === n.id ? n : p)));
+        
     };
 
-    useEffect(() => {
-        axios.get("http://localhost:3001/persons")
-            .then(r => setPersons(r.data));
-    }, []);
+    const onRemovePerson = (person: I_Person) =>
+        db.removePerson(person).then(hydratePersonList);
+
+    useEffect(() => void hydratePersonList(), []);
 
     return <div>
         <h2>Phonebook</h2>
@@ -30,7 +41,7 @@ export const App: FC = () => {
         <h2>Add name</h2>
         <NewNameForm onNewName={onNewName} />
         <h2>Numbers</h2>
-        <Namelist persons={personsToShow} />
-      </div>;
+        <Namelist persons={personsToShow} onRemovePerson={onRemovePerson} />
+    </div>;
 
 }

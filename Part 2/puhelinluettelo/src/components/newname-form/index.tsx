@@ -1,7 +1,9 @@
 import React, { FC, useState } from "react";
 import { I_Person } from "../../types/person";
 
-export const NewNameForm: FC<{ onNewName: (p: I_Person) => void }> = ({ onNewName }) => {
+export const NewNameForm: FC<{
+    onNewName: (p: Pick<I_Person, "name" | "phone">) => void
+}> = ({ onNewName }) => {
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
