@@ -8,7 +8,7 @@ export const getAll = (): Promise<I_Person[]> =>
         .then(r => r.data);
 
 export const removePerson = (person: I_Person): Promise<I_Person[]> =>
-    axios.delete(`${BASE_URL}/${person.id}`)
+    axios.delete(`${BASE_URL}/${person._id}`)
         .then(r => r.data);
 
 export const newPerson = (person: Pick<I_Person, "name" | "phone">): Promise<I_Person> =>
@@ -16,5 +16,5 @@ export const newPerson = (person: Pick<I_Person, "name" | "phone">): Promise<I_P
         .then(r => r.data);
 
 export const updatePerson = (person: I_Person): Promise<I_Person> =>
-    axios.put(`${BASE_URL}/${person.id}`, person)
+    axios.put(`${BASE_URL}/${person._id}`, person)
         .then(r => r.data);

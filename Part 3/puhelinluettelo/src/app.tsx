@@ -32,9 +32,10 @@ export const App: FC = () => {
         if (!window.confirm(`${newPerson.name} already exists. Update number?`))
             return;
 
-        db.updatePerson({ ...newPerson, id: collision.id })
+        db.updatePerson({ ...newPerson, _id: collision._id })
             .then(n => {
-                setPersons(persons.map(p => p.id === n.id ? n : p));
+                console.log(n);
+                setPersons(persons.map(p => p._id === n._id ? n : p));
                 setSuccess(`${n.name} updated`);
                 setTimeout(() => setSuccess(null), 3000);
             })
