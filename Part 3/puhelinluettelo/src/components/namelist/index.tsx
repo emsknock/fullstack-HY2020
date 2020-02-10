@@ -9,7 +9,7 @@ export const Namelist: FC<{
     onRemovePerson,
 }) => <div>{
     persons.map(
-        p => <div key={p.name}>
+        p => <div key={p._id}>
             {p.name} • {p.phone}
             <button onClick={() => onRemovePerson(p)}>Remove</button>
         </div>
