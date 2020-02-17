@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 export const PORT = process.env.PORT ?? 3003;
 
 export const DB_PASS = process.env.DB_PASS;
