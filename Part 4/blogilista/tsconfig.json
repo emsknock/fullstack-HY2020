@@ -1,0 +1,16 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "target": "ES5",
+        "removeComments": true,
+        "noImplicitAny": true,
+        "allowUnreachableCode": false,
+        "outDir": "build/"
+    },
+    "exclude": [
+        "build/",
+        "**/node_modules"
+    ]
+}
