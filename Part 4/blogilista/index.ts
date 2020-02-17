@@ -1,21 +1,11 @@
-import { MONGO_URL, PORT } from "./utils/config";
+import { PORT } from "./utils/config";
 
 import http from "http";
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
 import * as logger from "./utils/logger";
+import { app } from "./app";
 
-import { blogsRouter } from "./controllers/blogs";
+const server = http.createServer(app);
 
-const app = express();
-
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
-
-app.use(cors());
-app.use(express.json());
-app.use("/api/blogs", blogsRouter);
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     logger.info(`Server running on port ${PORT}`)
 });
