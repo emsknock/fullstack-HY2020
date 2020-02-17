@@ -1,4 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Schema, Document, model } from "mongoose";
+
+export interface Blog extends Document {
+    title: string,
+    author: string,
+    url: string,
+    likes: number
+}
 
 const blogSchema = new Schema({
     title: String,
