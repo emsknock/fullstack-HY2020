@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
+import { MONGO_URL, PORT } from "./utils/config";
+
 const app = express();
 
 const blogSchema = new mongoose.Schema({
@@ -14,8 +16,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-const mongoUrl = "mongodb://localhost/bloglist";
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(cors());
 app.use(express.json());
@@ -37,7 +38,6 @@ app.post("/api/blogs", (request, response) => {
         });
 });
 
-const PORT = 3003;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 });
