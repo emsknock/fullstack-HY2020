@@ -12,12 +12,12 @@ describe(
 
         test(
             "of a single blog equals its like count",
-            () => expect(totalLikes([blogs[0]])).toBe(7)
+            () => expect(totalLikes([initialBlogs[0]])).toBe(7)
         );
 
         test(
             "is calculated correctly for a list",
-            () => expect(totalLikes(blogs)).toBe(36)
+            () => expect(totalLikes(initialBlogs)).toBe(36)
         );
 
     }
@@ -34,12 +34,12 @@ describe(
 
         test(
             "from a list with a single blog is that blog",
-            () => expect(favouriteBlog([blogs[0]])).toEqual(blogs[0])
+            () => expect(favouriteBlog([initialBlogs[0]])).toEqual(initialBlogs[0])
         );
 
         test(
             "is found correctly for a list of blogs",
-            () => expect(favouriteBlog(blogs)).toEqual(blogs[2])
+            () => expect(favouriteBlog(initialBlogs)).toEqual(initialBlogs[2])
         )
 
     }
