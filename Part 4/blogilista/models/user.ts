@@ -18,7 +18,7 @@ userSchema.set(
         transform: (doc, ret) => {
             ret.id = ret._id.toString();
             delete ret._id;
-            delete ret._v;
+            delete ret.__v;
             delete ret.passHash;
         }
     }
