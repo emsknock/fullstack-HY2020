@@ -30,4 +30,11 @@ router.delete("/:id", async (request, response) => {
 
 });
 
+router.put("/:id", async (request, response) => {
+
+    await Blog.findByIdAndUpdate(request.params.id, request.body);
+    response.status(204).end();
+
+});
+
 export { router as blogsRouter };
