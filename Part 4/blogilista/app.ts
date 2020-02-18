@@ -5,6 +5,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { blogsRouter } from "./controllers/blogs";
 
+require("express-async-errors");
+
 mongoose.connect(
     MONGO_URL,
     {
