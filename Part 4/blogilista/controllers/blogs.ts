@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { Blog } from "../models/blog";
+import { User } from "../models/user";
 
 const router = Router();
 
 router.get("/", async (request, response) =>{
-    const blogs = await Blog.find({});
+    const blogs = await Blog.find({}).populate("user");
     response.json(blogs.map(b => b.toJSON()));
 });
 
@@ -12,7 +13,10 @@ router.post("/", async (request, response) => {
     if (!request.body.title || !request.body.url)
         return response.status(400).json({ error: "required field(s) missing" });
 
-    const blog = new Blog(request.body);
+    const blog = new Blog({
+        ...request.body,
+        user: (await User.findOne({}))._id,
+    });
     const result = await blog.save();
     
     response.status(201).json(result.toJSON());
