@@ -69,6 +69,15 @@ describe(
             }
         );
 
+        test(
+            "with no title or author get 400 response",
+            async () => {
+                await api.post("/api/blogs")
+                    .send({ author: "Test Author" })
+                    .expect(400);
+            }
+        )
+
     }
 )
 
