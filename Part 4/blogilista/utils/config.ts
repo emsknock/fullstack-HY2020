@@ -12,3 +12,9 @@ if (!DB_PASS) {
 
 export const MONGO_URL =
     `mongodb+srv://fullstack:${DB_PASS}@cluster0-x5cql.mongodb.net/blog${process.env.NODE_ENV === "test" ? "-test" : ""}?retryWrites=true&w=majority`;
+
+export const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    error("No JWT_SECRET variable set!");
+    process.exit(1);
+}

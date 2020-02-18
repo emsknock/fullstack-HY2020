@@ -9,6 +9,9 @@
         "allowUnreachableCode": false,
         "outDir": "build/"
     },
+    "include": [
+        "**/*.ts"
+    ],
     "exclude": [
         "build/",
         "tests/",

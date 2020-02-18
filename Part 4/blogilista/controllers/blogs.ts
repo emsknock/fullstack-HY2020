@@ -7,14 +7,6 @@ import { User } from "../models/user";
 
 const router = Router();
 
-const getRequestToken = (request: Request) => {
-    const auth = request.get("authorization");
-    return auth && auth.toLowerCase().startsWith("bearer")
-        ? auth.substring(7)
-        : null;
-};
-
-
 router.get("/", async (request, response) => {
     const blogs = await Blog.find({}).populate("user");
     response.json(blogs.map(b => b.toJSON()));
@@ -23,16 +15,11 @@ router.get("/", async (request, response) => {
 router.post("/", async (request, response) => {
 
     const { body } = request;
-    const token = getRequestToken(request);
-
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
-    if (!token || !decodedToken.id)
-        return response.status(401).json({ error: "token missing or invalid" });
 
     if (!body.title || !body.url)
         return response.status(400).json({ error: "required field(s) missing" });
 
-    const user = await User.findById(decodedToken.id);
+    const user = await User.findById(request.token.id);
 
     const blog = new Blog({
         ...request.body,

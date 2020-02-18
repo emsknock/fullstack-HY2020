@@ -7,7 +7,8 @@ import mongoose from "mongoose";
 import { blogsRouter } from "./controllers/blogs";
 import { usersRouter } from "./controllers/users";
 import { loginRouter } from "./controllers/login";
-import { errorHandler } from "./controllers/errors";
+
+import { tokenExtractor, errorHandler } from "./utils/middleware";
 
 require("express-async-errors");
 
@@ -24,6 +25,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(tokenExtractor);
 
 app.use("/api/blogs", blogsRouter);
 app.use("/api/users", usersRouter);
