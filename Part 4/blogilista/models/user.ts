@@ -1,6 +1,10 @@
-import { Schema, model } from "mongoose";
+import { Schema, Document, model } from "mongoose";
 
-const userSchema = new Schema({
+interface User extends Document {
+    passHash: string,
+}
+
+const userSchema = new Schema<User>({
     username: String,
     name: String,
     passHash: String,
@@ -24,4 +28,4 @@ userSchema.set(
     }
 );
 
-export const User = model("User", userSchema);
+export const User = model<User>("User", userSchema);

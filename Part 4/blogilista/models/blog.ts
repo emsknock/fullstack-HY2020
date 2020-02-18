@@ -33,4 +33,4 @@ blogSchema.set(
     }
 );
 
-export const Blog = model("Blog", blogSchema);
+export const Blog = model<Blog>("Blog", blogSchema);
