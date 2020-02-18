@@ -36,6 +36,6 @@ export const tokenExtractor = (
 
     req.token = decodedToken;
 
-    next(req);
+    next();
 
 }
