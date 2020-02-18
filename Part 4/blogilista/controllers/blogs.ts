@@ -3,24 +3,19 @@ import { Blog } from "../models/blog";
 
 const router = Router();
 
-router.get("/", (request, response) =>
-    Blog
-        .find({})
-        .then(blogs => {
-            response.json(blogs.map(b => b.toJSON()))
-        })
-);
+router.get("/", async (request, response) =>{
+    const blogs = await Blog.find({});
+    response.json(blogs.map(b => b.toJSON()));
+});
 
-router.post("/", (request, response) => {
+router.post("/", async (request, response) => {
     if (!request.body.title || !request.body.url)
         return response.status(400).json({ error: "required field(s) missing" });
 
     const blog = new Blog(request.body);
-    blog
-        .save()
-        .then(result => {
-            response.status(201).json(result.toJSON())
-        })
+    const result = await blog.save();
+    
+    response.status(201).json(result.toJSON());
 });
 
 router.delete("/:id", async (request, response) => {
