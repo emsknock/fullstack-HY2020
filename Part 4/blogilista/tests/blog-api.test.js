@@ -55,6 +55,20 @@ describe(
             }
         );
 
+        test(
+            "with no likes field are defaulted to zero likes",
+            async () => {
+                const { body: { likes } } = await api.post("/api/blogs")
+                    .send({
+                        title: "Test post with no likes",
+                        author: "Test Author",
+                        url: "https://example.com/"
+                    })
+                    .expect(201);
+                expect(likes).toBe(0);
+            }
+        );
+
     }
 )
 
