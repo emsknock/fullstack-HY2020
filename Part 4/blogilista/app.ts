@@ -5,7 +5,14 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { blogsRouter } from "./controllers/blogs";
 
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(
+    MONGO_URL,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+    }
+);
 
 const app = express();
 
