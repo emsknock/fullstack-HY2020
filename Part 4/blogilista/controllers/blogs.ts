@@ -23,4 +23,11 @@ router.post("/", (request, response) => {
         })
 });
 
+router.delete("/:id", async (request, response) => {
+
+    await Blog.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+
+});
+
 export { router as blogsRouter };
