@@ -9,7 +9,6 @@ export interface Blog extends Document {
 
 const blogSchema = new Schema({
     title: String,
-    author: String,
     url: String,
     likes: {
         type: Number,
