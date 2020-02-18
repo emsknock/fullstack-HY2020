@@ -6,7 +6,8 @@
     "scripts": {
         "start": "NODE_ENV=production node .",
         "dev": "NODE_ENV=development nodemon . -e ts -x \"tsc && node .\"",
-        "test": "NODE_ENV=test jest --verbose"
+        "test": "NODE_ENV=test tsc && jest --verbose",
+        "build": "tsc"
     },
     "dependencies": {
         "cors": "^2.8.5",
