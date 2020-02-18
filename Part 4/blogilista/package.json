@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "scripts": {
         "start": "NODE_ENV=production node .",
-        "dev": "NODE_ENV=development nodemon .",
+        "dev": "NODE_ENV=development nodemon . -e ts -x \"tsc && node .\"",
         "test": "NODE_ENV=test jest --verbose"
     },
     "dependencies": {
