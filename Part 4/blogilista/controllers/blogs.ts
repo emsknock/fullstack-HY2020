@@ -7,7 +7,7 @@ router.get("/", (request, response) =>
     Blog
         .find({})
         .then(blogs => {
-            response.json(blogs)
+            response.json(blogs.map(b => b.toJSON()))
         })
 );
 
