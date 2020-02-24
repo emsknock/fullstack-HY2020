@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import userService from "./services/user";
 import { LoginForm } from "./components/LoginForm";
 import { NewBlogForm } from "./components/NewBlogForm";
+import { WithToggle } from "./components/WithToggle";
 
 const App = () => {
 
     const [blogs, setBlogs] = useState([]);
     const [user, setUser] = useState(null);
+    const blogFormRef = useRef(null);
 
     useEffect(
         () => {
@@ -56,9 +58,15 @@ const App = () => {
     };
 
     const handleBlogCreation = async (blog) => {
+        blogFormRef.current.setOpen(false);
         const data = await blogService.create(blog);
         setBlogs(o => [...o, data]);
-    };  
+    };
+    const handleBlogLike = async (blog) => {
+        const newBlog = { ...blog, likes: blog.likes + 1 };
+        const data = await blogService.update(newBlog);
+        setBlogs(o => o.map(b => b.id !== blog.id ? b : data));
+    };
 
     return user === null
         ? <LoginForm onLogin={handleLogin} />
@@ -69,12 +77,16 @@ const App = () => {
                 <button onClick={handleLogout}>Logout</button>
             </div>
             <h2>Create new blog</h2>
-            <NewBlogForm onCreate={handleBlogCreation} />
+            <WithToggle label="New Blog" ref={blogFormRef}>
+                <NewBlogForm onCreate={handleBlogCreation} />
+            </WithToggle>
             <h2>Blogs</h2>
             {
-                blogs.map(blog =>
-                    <Blog key={blog.id} blog={blog} />
-                )
+                blogs
+                    .sort((a, b) => b.likes - a.likes)
+                    .map(blog =>
+                        <Blog key={blog.id} blog={blog} onLike={handleBlogLike} />
+                    )
             }
         </div>;
 }

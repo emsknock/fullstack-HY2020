@@ -6,7 +6,6 @@ const setToken = newToken => { auth = `bearer ${newToken}` };
 
 const getAll = async () => {
     const { data } = await axios.get(baseUrl, { headers: { Authorization: auth } });
-    console.log(data);
     return data;
 }
 
@@ -20,4 +19,14 @@ const create = async (blog) => {
     return response.data;
 }
 
-export default { getAll, setToken, create }
+const update = async (blog) => {
+    if (!auth) throw Error("No auth set!");
+    const response = await axios.put(
+        `${baseUrl}/${blog.id}`,
+        { ...blog, user: blog.user.id },
+        { headers: { Authorization: auth } }
+    );
+    return blog;
+}
+
+export default { getAll, setToken, create, update }
