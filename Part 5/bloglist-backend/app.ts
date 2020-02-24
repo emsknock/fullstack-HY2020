@@ -28,6 +28,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/login", loginRouter);
+app.use("/api/users", usersRouter);
 if (IS_TESTING) {
     app.use("/api/testing", testingRouter);
 }
@@ -35,7 +36,6 @@ if (IS_TESTING) {
 app.use(tokenExtractor);
 
 app.use("/api/blogs", blogsRouter);
-app.use("/api/users", usersRouter);
 
 app.use(errorHandler);
 
