@@ -29,7 +29,7 @@ router.post("/", async (request, response) => {
 
     response
         .status(200)
-        .send({ token, username, name });
+        .send({ token, username });
 })
 
 export { router as loginRouter };
