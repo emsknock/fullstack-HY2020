@@ -1,4 +1,4 @@
-import { MONGO_URL } from "./utils/config";
+import { IS_TESTING, MONGO_URL } from "./utils/config";
 
 import express from "express";
 import cors from "cors";
@@ -9,6 +9,7 @@ import { usersRouter } from "./controllers/users";
 import { loginRouter } from "./controllers/login";
 
 import { tokenExtractor, errorHandler } from "./utils/middleware";
+import { testingRouter } from "./controllers/testing";
 
 require("express-async-errors");
 
@@ -27,6 +28,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/login", loginRouter);
+if (IS_TESTING) {
+    app.use("/api/testing", testingRouter);
+}
 
 app.use(tokenExtractor);
 
