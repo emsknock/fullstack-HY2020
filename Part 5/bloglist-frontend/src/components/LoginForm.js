@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 export const LoginForm = ({ onLogin }) => {
 
@@ -26,4 +27,8 @@ export const LoginForm = ({ onLogin }) => {
         <input type="submit" value="Login" />
     </form>
 
+}
+
+LoginForm.propTypes = {
+    onLogin: PropTypes.func.isRequired
 }

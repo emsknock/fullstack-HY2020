@@ -21,7 +21,7 @@ const create = async (blog) => {
 
 const update = async (blog) => {
     if (!auth) throw Error("No auth set!");
-    const response = await axios.put(
+    await axios.put(
         `${baseUrl}/${blog.id}`,
         { ...blog, user: blog.user.id },
         { headers: { Authorization: auth } }
