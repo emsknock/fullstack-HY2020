@@ -10,6 +10,7 @@ const App = () => {
 
     const [blogs, setBlogs] = useState([]);
     const [user, setUser] = useState(null);
+    const [toast, setToast] = useState(null);
     const blogFormRef = useRef(null);
 
     useEffect(
@@ -49,7 +50,8 @@ const App = () => {
             blogService.setToken(u.token);
             setUser(u);
         } catch (e) {
-
+            setToast("Incorrect credentials");
+            setTimeout(() => setToast(null), 3000);
         }
     };
     const handleLogout = () => {
@@ -61,6 +63,8 @@ const App = () => {
         blogFormRef.current.setOpen(false);
         const data = await blogService.create(blog);
         setBlogs(o => [...o, data]);
+        setToast(`Created: ${data.title}`);
+        setTimeout(() => setToast(null), 3000);
     };
     const handleBlogLike = async (blog) => {
         const newBlog = { ...blog, likes: blog.likes + 1 };
@@ -68,27 +72,31 @@ const App = () => {
         setBlogs(o => o.map(b => b.id !== blog.id ? b : data));
     };
 
-    return user === null
-        ? <LoginForm onLogin={handleLogin} />
-        : <div>
-            <h2>User</h2>
-            <div>
-                {user.username}
-                <button onClick={handleLogout}>Logout</button>
+    return <>
+        {toast}
+        {user === null
+            ? <LoginForm onLogin={handleLogin} />
+            : <div>
+                <h2>User</h2>
+                <div>
+                    {user.username}
+                    <button onClick={handleLogout}>Logout</button>
+                </div>
+                <h2>Create new blog</h2>
+                <WithToggle label="New Blog" ref={blogFormRef}>
+                    <NewBlogForm onCreate={handleBlogCreation} />
+                </WithToggle>
+                <h2>Blogs</h2>
+                {
+                    blogs
+                        .sort((a, b) => b.likes - a.likes)
+                        .map(blog =>
+                            <Blog key={blog.id} blog={blog} onLike={handleBlogLike} />
+                        )
+                }
             </div>
-            <h2>Create new blog</h2>
-            <WithToggle label="New Blog" ref={blogFormRef}>
-                <NewBlogForm onCreate={handleBlogCreation} />
-            </WithToggle>
-            <h2>Blogs</h2>
-            {
-                blogs
-                    .sort((a, b) => b.likes - a.likes)
-                    .map(blog =>
-                        <Blog key={blog.id} blog={blog} onLike={handleBlogLike} />
-                    )
-            }
-        </div>;
+        }
+    </>;
 }
 
 export default App;
