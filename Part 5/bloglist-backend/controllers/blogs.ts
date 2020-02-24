@@ -27,10 +27,17 @@ router.post("/", async (request, response) => {
     });
     const result = await blog.save();
 
-    response.status(201).json(result.toJSON());
+    const populated = await Blog.findById(result.id).populate("user");
+
+    response.status(201).json(populated.toJSON());
 });
 
 router.delete("/:id", async (request, response) => {
+
+    const blog = await Blog.findById(request.params.id);
+    if(blog.user.toString() !== request.token.id)
+        throw Error("Unauthorised remove");
+
 
     await Blog.findByIdAndDelete(request.params.id);
     response.status(204).end();

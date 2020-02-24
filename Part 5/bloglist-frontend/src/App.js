@@ -71,6 +71,10 @@ const App = () => {
         const data = await blogService.update(newBlog);
         setBlogs(o => o.map(b => b.id !== blog.id ? b : data));
     };
+    const handleBlogRemove = async (blog) => {
+        await blogService.remove(blog);
+        setBlogs(o => o.filter(b => b.id !== blog.id));
+    };
 
     return <>
         {toast}
@@ -90,9 +94,13 @@ const App = () => {
                 {
                     blogs
                         .sort((a, b) => b.likes - a.likes)
-                        .map(blog =>
-                            <Blog key={blog.id} blog={blog} onLike={handleBlogLike} />
-                        )
+                        .map(blog => <Blog
+                            key={blog.id}
+                            blog={blog}
+                            onLike={handleBlogLike}
+                            currentUser={user}
+                            onRemove={handleBlogRemove}
+                        />)
                 }
             </div>
         }

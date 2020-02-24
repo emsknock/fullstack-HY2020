@@ -6,11 +6,11 @@ const style = {
     marginBottom: "5px",
 }
 
-const Blog = ({ blog, onLike }) => {
+const Blog = ({ blog, onLike, onRemove, currentUser }) => {
 
     const [isDetailed, setDetailed] = useState(false);
 
-    return <div style={style}>
+    return <div style={style} className="blog">
         <div>
             {blog.title} — {blog.author}
             <button onClick={() => setDetailed(s => !s)}>
@@ -25,6 +25,11 @@ const Blog = ({ blog, onLike }) => {
                     <button onClick={() => onLike(blog)}>Like</button>
                 </div>
                 <div>{blog.user.name}</div>
+                {
+                    currentUser.username === blog.user.username && <div>
+                        <button onClick={() => onRemove(blog)}>Remove</button>
+                    </div> 
+                }
             </>
         }
     </div>;

@@ -19,6 +19,15 @@ const create = async (blog) => {
     return response.data;
 }
 
+const remove = async (blog) => {
+    if (!auth) throw Error("No auth set!");
+    const response = await axios.delete(
+        `${baseUrl}/${blog.id}`,
+        { headers: { Authorization: auth } }
+    );
+    return response;
+}
+
 const update = async (blog) => {
     if (!auth) throw Error("No auth set!");
     await axios.put(
@@ -29,4 +38,4 @@ const update = async (blog) => {
     return blog;
 }
 
-export default { getAll, setToken, create, update }
+export default { getAll, setToken, create, update, remove }

@@ -14,17 +14,17 @@ export const NewBlogForm = ({ onCreate }) => {
     return <form onSubmit={handleSubmit}>
         <div>
             <span>Title</span>
-            <input value={title} onChange={e => setTitle(e.target.value)} />
+            <input id="new-blog-title" value={title} onChange={e => setTitle(e.target.value)} />
         </div>
         <div>
             <span>Author</span>
-            <input value={author} onChange={e => setAuthor(e.target.value)} />
+            <input id="new-blog-author" value={author} onChange={e => setAuthor(e.target.value)} />
         </div>
         <div>
             <span>URL</span>
-            <input value={url} onChange={e => setUrl(e.target.value)} />
+            <input id="new-blog-url" value={url} onChange={e => setUrl(e.target.value)} />
         </div>
-        <input type="submit" value="Create" />
+        <input id="new-blog-submit" type="submit" value="Create" />
     </form>
 
 }

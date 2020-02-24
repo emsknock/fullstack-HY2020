@@ -14,17 +14,18 @@ export const LoginForm = ({ onLogin }) => {
     return <form onSubmit={handleSubmit}>
         <div>
             <span>Username: </span>
-            <input value={username} onChange={e => setUsername(e.target.value)} />
+            <input id="username" value={username} onChange={e => setUsername(e.target.value)} />
         </div>
         <div>
             <span>Password: </span>
             <input
+                id="password"
                 value={password}
                 type="password"
                 onChange={e => setPassword(e.target.value)}
             />
         </div>
-        <input type="submit" value="Login" />
+        <input id="login-btn" type="submit" value="Login" />
     </form>
 
 }
