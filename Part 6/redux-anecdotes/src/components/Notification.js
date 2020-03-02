@@ -1,11 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
 
-export const Notification = () => {
-    
-    const notification = useSelector(s => s.notification);
+const Component = ({ text }) => {
 
-    if(!notification) return null;
+    if(!text) return null;
 
     const style = {
         border: 'solid',
@@ -13,7 +11,9 @@ export const Notification = () => {
         borderWidth: 1
     };
     return <div style={style}>
-        {notification}
+        {text}
     </div>;
 
 }
+
+export const Notification = connect(s => ({ text: s.notification.text }))(Component);
