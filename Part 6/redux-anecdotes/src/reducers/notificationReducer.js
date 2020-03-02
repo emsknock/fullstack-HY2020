@@ -1,7 +1,12 @@
 const defaultState = "";
 
-export const setNotification = (text) => ({ type: "SET_NOTIFICATION", text });
-export const clearNotification = () => ({ type: "SET_NOTIFICATION", text: "" });
+export const setNotification = text => async dispatch => {
+    dispatch({ type: "SET_NOTIFICATION", text });
+    setTimeout(
+        () => dispatch({ type: "SET_NOTIFICATION", text: "" }),
+        5000
+    );
+}
 
 export default (state = defaultState, action) => {
 

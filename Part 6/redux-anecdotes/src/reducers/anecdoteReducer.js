@@ -1,7 +1,9 @@
+import * as anecdoteService from "../services/anecdotes";
+
 const defaultState = [];
 
 const reducer = (state = defaultState, action) => {
-    
+
     if (action.type === "VOTE")
         return state.map(
             anecdote => anecdote.id !== action.id
@@ -19,11 +21,20 @@ const reducer = (state = defaultState, action) => {
         return action.values;
 
     return state;
-    
+
 }
 
-export const vote = (id) => ({ type: "VOTE", id });
-export const addAnecdote = (value) => ({ type: "ADD_ANECDOTE", value });
-export const initAnecdotes = (values) => ({ type: "INIT_ANECDOTES", values });
+export const vote = anecdote => async dispatch => {
+    const { id } = await anecdoteService.vote(anecdote);
+    dispatch({ type: "VOTE", id });
+};
+export const addAnecdote = text => async dispatch => {
+    const value = await anecdoteService.create(text);
+    dispatch({ type: "ADD_ANECDOTE", value });
+}
+export const initAnecdotes = () => async dispatch => {
+    const values = await anecdoteService.getAll();
+    dispatch({ type: "INIT_ANECDOTES", values });
+}
 
 export default reducer
