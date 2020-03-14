@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { Switch, Route, Redirect, Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { UserView } from "./views/user";
-import { UserStatsView } from "./views/stats";
+import { UserView } from "./components/User";
+import { UserStatsView } from "./components/Stats";
 
 import { initialiseBlogs, createBlog } from "./reducers/blogs";
 import { login, initialiseUser, logout } from "./reducers/user";
@@ -13,7 +13,7 @@ import { LoginForm } from "./components/LoginForm";
 import { NewBlogForm } from "./components/NewBlogForm";
 import { WithToggle } from "./components/WithToggle";
 import { Notification } from "./components/Notification";
-import { BlogView } from "./views/blog";
+import { BlogView } from "./components/Blog";
 
 const MainView = () => {
 
