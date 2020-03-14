@@ -7,7 +7,15 @@ router.get('/', async (request, response) => {
     const blogs = await Blog
         .find({}).populate('user', { username: 1, name: 1 });
     response.json(blogs);
-})
+});
+
+router.post("/:id/comments", async (request, response) => {
+    const { id } = request.params;
+    const { comment } = request.body;
+    const updatedBlog = await Blog
+        .findByIdAndUpdate(id, { $push: { comments: comment } }, { new: true });
+    response.json(updatedBlog.toJSON());
+});
 
 router.delete('/:id', async (request, response) => {
     const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET)

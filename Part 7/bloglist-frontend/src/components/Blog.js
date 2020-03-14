@@ -1,12 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { likeBlog, removeBlog } from "../reducers/blogs";
+import { useField } from "../hooks/use-field";
+import { likeBlog, removeBlog, addComment } from "../reducers/blogs";
 
 export const BlogView = ({ blog }) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const comment = useField("text");
 
     const user = useSelector(s => s.user);
     const onLike = _ => dispatch(likeBlog(blog));
@@ -14,6 +17,10 @@ export const BlogView = ({ blog }) => {
         dispatch(removeBlog(blog));
         history.push("/");
     };
+    const onComment = e => {
+        e.preventDefault();
+        dispatch(addComment(blog, comment.value));
+    }
 
     if (!blog) return null;
 
@@ -37,6 +44,10 @@ export const BlogView = ({ blog }) => {
             }
         </div>
         <h2>Comments</h2>
+        <form onSubmit={onComment}>
+            <input name="comment" {...comment} />
+            <button>Add comment</button>
+        </form>
         <ul>
             {blog.comments?.map(c => <li key={c}>{c}</li>)}
         </ul>

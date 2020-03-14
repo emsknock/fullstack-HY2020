@@ -39,10 +39,10 @@ export const removeBlog = (data) => async dispatch => {
     dispatch(setNotification(`Removed blog "${data.title}"`));
 };
 export const likeBlog = (blog) => async dispatch => {
-    const data = {...blog, likes: blog.likes + 1};
+    const data = { ...blog, likes: blog.likes + 1 };
     await axios.put(
         `${BASE_URL}/${blog.id}`,
-        {...data, user: blog.user.id },
+        { ...data, user: blog.user.id },
         config()
     );
     dispatch({
@@ -51,6 +51,17 @@ export const likeBlog = (blog) => async dispatch => {
     });
     dispatch(setNotification(`Liked "${blog.title}"`));
 };
+export const addComment = (blog, comment) => async dispatch => {
+    const { data } = await axios.post(
+        `${BASE_URL}/${blog.id}/comments`,
+        { comment },
+        config()
+    );
+    dispatch({
+        type: "UPDATE_BLOG",
+        data,
+    });
+}
 
 export default (state = defaultState, action) => {
 
