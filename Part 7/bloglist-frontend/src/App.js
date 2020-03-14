@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Switch, Route, Redirect, useRouteMatch } from "react-router-dom";
+import { Switch, Route, Redirect, Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { UserView } from "./views/user";
@@ -21,12 +21,10 @@ const MainView = () => {
     const dispatch = useDispatch();
 
     const blogs = useSelector(s => s.blogs);
-    const user = useSelector(s => s.user);
 
     const blogFormRef = useRef(null);
 
     const onCreate = blog => dispatch(createBlog(blog));
-    const onRemove = blog => dispatch(removeBlog(blog));
 
     return <>
         <h2>Create new blog</h2>
@@ -34,17 +32,19 @@ const MainView = () => {
             <NewBlogForm onCreate={onCreate} />
         </WithToggle>
         <h2>Blogs</h2>
-        {
-            blogs
-                .sort((a, b) => b.likes - a.likes)
-                .map(blog => <Blog
-                    key={blog.id}
-                    blog={blog}
-                    onLike={onLike}
-                    currentUser={user}
-                    onRemove={onRemove}
-                />)
-        }
+        <ul>
+            {
+                blogs
+                    .sort((a, b) => b.likes - a.likes)
+                    .map(blog =>
+                        <li key={blog.id}>
+                            <Link to={`/blogs/${blog.id}`}>
+                                {blog.title} by {blog.user.name}
+                            </Link>
+                        </li>
+                    )
+            }
+        </ul>
     </>;
 }
 
@@ -88,7 +88,7 @@ const App = () => {
                         <Route path="/users"><UserStatsView stats={stats} /></Route>
                         <Route path="/blogs/:id"><BlogView blog={blog} /></Route>
                         <Route path="/blogs"><MainView /></Route>
-                        <Redirect to="/blogs"/>
+                        <Redirect to="/blogs" />
                     </Switch>
                 </>
         }
