@@ -36,6 +36,10 @@ export const BlogView = ({ blog }) => {
                     </>
             }
         </div>
+        <h2>Comments</h2>
+        <ul>
+            {blog.comments?.map(c => <li key={c}>{c}</li>)}
+        </ul>
     </>
 
 };
