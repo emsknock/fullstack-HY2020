@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 export const LoginForm = ({ onLogin }) => {
@@ -25,7 +26,7 @@ export const LoginForm = ({ onLogin }) => {
                 onChange={e => setPassword(e.target.value)}
             />
         </div>
-        <input id="login-btn" type="submit" value="Login" />
+        <button id="login-btn" type="submit">Login</button>
     </form>
 
 }

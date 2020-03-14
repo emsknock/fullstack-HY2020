@@ -1,8 +1,15 @@
 import React from "react";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useField } from "../hooks/use-field";
 import { likeBlog, removeBlog, addComment } from "../reducers/blogs";
+
+const Label = styled.div`
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    color: #333;
+`;
 
 export const BlogView = ({ blog }) => {
 
@@ -30,15 +37,15 @@ export const BlogView = ({ blog }) => {
             <a href={blog.url}>{blog.url}</a>
         </div>
         <div>
-            {blog.likes} likes
+            <Label>{blog.likes} likes</Label>
             <button onClick={onLike}>Like</button>
         </div>
         <div>
             {
-                user.username !== blog.user.username
-                    ? `Added by ${blog.user.name}`
+                user.name !== blog.user.name
+                    ? <Label>Added by {blog.user.name}</Label>
                     : <>
-                        Added by you
+                        <Label>Added by you</Label>
                         <button onClick={onRemove}>Remove</button>
                     </>
             }

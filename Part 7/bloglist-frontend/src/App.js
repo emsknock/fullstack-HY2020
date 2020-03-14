@@ -1,54 +1,36 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+
+import styled from "styled-components";
+import "./App.css";
+
 import { Switch, Route, Redirect, Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import { MainView } from "./components/Main";
 import { UserView } from "./components/User";
 import { UserStatsView } from "./components/Stats";
 
-import { initialiseBlogs, createBlog } from "./reducers/blogs";
+import { initialiseBlogs } from "./reducers/blogs";
 import { login, initialiseUser, logout } from "./reducers/user";
 import { initialiseUserStats } from "./reducers/user-stats";
 
 import { LoginForm } from "./components/LoginForm";
-import { NewBlogForm } from "./components/NewBlogForm";
-import { WithToggle } from "./components/WithToggle";
 import { Notification } from "./components/Notification";
 import { BlogView } from "./components/Blog";
 
-const MainView = () => {
-
-    const dispatch = useDispatch();
-
-    const blogs = useSelector(s => s.blogs);
-
-    const blogFormRef = useRef(null);
-
-    const onCreate = blog => {
-        dispatch(createBlog(blog));
-        blogFormRef.current.setOpen(false);
-    }
-
-    return <>
-        <h2>Create new blog</h2>
-        <WithToggle label="New Blog" ref={blogFormRef}>
-            <NewBlogForm onCreate={onCreate} />
-        </WithToggle>
-        <h2>Blogs</h2>
-        <ul>
-            {
-                blogs
-                    .sort((a, b) => b.likes - a.likes)
-                    .map(blog =>
-                        <li key={blog.id}>
-                            <Link to={`/blogs/${blog.id}`}>
-                                {blog.title} by {blog.user.name}
-                            </Link>
-                        </li>
-                    )
-            }
-        </ul>
-    </>;
-}
+const StyledLink = styled(Link)`
+    margin: 0 1rem;
+`;
+const Header = styled.header`
+    width: 100vw;
+    padding: 1rem;
+    background-color: #aaf;
+    display: flex;
+    justify-content: space-between;
+`;
+const Container = styled.div`
+    padding: 1rem;
+`;
 
 const App = () => {
 
@@ -56,16 +38,16 @@ const App = () => {
     const userMatch = useRouteMatch("/users/:id");
     const blogMatch = useRouteMatch("/blogs/:id");
 
-    useEffect(() => { dispatch(initialiseBlogs()) }, [dispatch]);
-    useEffect(() => { dispatch(initialiseUser()) }, [dispatch]);
-    useEffect(() => { dispatch(initialiseUserStats()) }, [dispatch]);
-
     const stats = useSelector(s => s.userStats);
     const blogs = useSelector(s => s.blogs);
     const auth = useSelector(s => s.user);
 
     const onLogin = creds => dispatch(login(creds));
     const onLogout = _ => dispatch(logout());
+
+    useEffect(() => { dispatch(initialiseUser()) }, [dispatch]);
+    useEffect(() => { auth && dispatch(initialiseBlogs()) }, [auth, dispatch]);
+    useEffect(() => { auth && dispatch(initialiseUserStats()) }, [auth, dispatch]);
 
     const user = userMatch
         ? stats.find(u => u.id === userMatch.params.id)
@@ -79,24 +61,33 @@ const App = () => {
             auth === null
                 ? <>
                     <Notification />
-                    <LoginForm onLogin={onLogin} />
+                    <Container>
+                        <LoginForm onLogin={onLogin} />
+                    </Container>
                 </>
                 : <>
-                    <header>
-                        <Link to="/users">Users</Link>
-                        <Link to="/blogs">Blogs</Link>
-                        {auth.name} Logged in
-                        <button onClick={onLogout}>Logout</button>
-                    </header>
+                    <Header>
+                        <span>
+                            <StyledLink to="/users">Users</StyledLink>
+                            <StyledLink to="/blogs">Blogs</StyledLink>
+                        </span>
+                        <span>
+                            Logged in as {auth.name}
+                            &nbsp;—&nbsp;
+                            <button onClick={onLogout}>Logout</button>
+                        </span>
+                    </Header>
                     <Notification />
-                    <h1>Blog app</h1>
-                    <Switch>
-                        <Route path="/users/:id"><UserView user={user} /></Route>
-                        <Route path="/users"><UserStatsView stats={stats} /></Route>
-                        <Route path="/blogs/:id"><BlogView blog={blog} /></Route>
-                        <Route path="/blogs"><MainView /></Route>
-                        <Redirect to="/blogs" />
-                    </Switch>
+                    <Container>
+                        <h1>Blog app</h1>
+                        <Switch>
+                            <Route path="/users/:id"><UserView user={user} /></Route>
+                            <Route path="/users"><UserStatsView stats={stats} /></Route>
+                            <Route path="/blogs/:id"><BlogView blog={blog} /></Route>
+                            <Route path="/blogs"><MainView /></Route>
+                            <Redirect to="/blogs" />
+                        </Switch>
+                    </Container>
                 </>
         }
     </>;

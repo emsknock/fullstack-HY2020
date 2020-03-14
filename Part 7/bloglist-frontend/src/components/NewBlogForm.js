@@ -1,4 +1,12 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const Label = styled.div`
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    color: #333;
+`;
+const GreenBtn = styled.button`background-color: #9f9`;
 
 export const NewBlogForm = ({ onCreate }) => {
 
@@ -13,18 +21,18 @@ export const NewBlogForm = ({ onCreate }) => {
 
     return <form onSubmit={handleSubmit}>
         <div>
-            <span>Title</span>
+            <Label>Title</Label>
             <input id="new-blog-title" value={title} onChange={e => setTitle(e.target.value)} />
         </div>
         <div>
-            <span>Author</span>
+            <Label>Author</Label>
             <input id="new-blog-author" value={author} onChange={e => setAuthor(e.target.value)} />
         </div>
         <div>
-            <span>URL</span>
+            <Label>URL</Label>
             <input id="new-blog-url" value={url} onChange={e => setUrl(e.target.value)} />
         </div>
-        <input id="new-blog-submit" type="submit" value="Create" />
+        <GreenBtn id="new-blog-submit">Create</GreenBtn>
     </form>
 
 }
