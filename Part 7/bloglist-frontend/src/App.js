@@ -23,7 +23,10 @@ const MainView = () => {
 
     const blogFormRef = useRef(null);
 
-    const onCreate = blog => dispatch(createBlog(blog));
+    const onCreate = blog => {
+        dispatch(createBlog(blog));
+        blogFormRef.current.setOpen(false);
+    }
 
     return <>
         <h2>Create new blog</h2>
@@ -72,16 +75,21 @@ const App = () => {
         : null;
 
     return <>
-        <Notification />
         {
             auth === null
-                ? <LoginForm onLogin={onLogin} />
+                ? <>
+                    <Notification />
+                    <LoginForm onLogin={onLogin} />
+                </>
                 : <>
-                    <h1>Blog app</h1>
-                    <div>
-                        {auth.username}
+                    <header>
+                        <Link to="/users">Users</Link>
+                        <Link to="/blogs">Blogs</Link>
+                        {auth.name} Logged in
                         <button onClick={onLogout}>Logout</button>
-                    </div>
+                    </header>
+                    <Notification />
+                    <h1>Blog app</h1>
                     <Switch>
                         <Route path="/users/:id"><UserView user={user} /></Route>
                         <Route path="/users"><UserStatsView stats={stats} /></Route>
