@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserView } from "./views/user";
 import { UserStatsView } from "./views/stats";
 
-import { initialiseBlogs, createBlog, removeBlog, likeBlog } from "./reducers/blogs";
+import { initialiseBlogs, createBlog } from "./reducers/blogs";
 import { login, initialiseUser, logout } from "./reducers/user";
 import { initialiseUserStats } from "./reducers/user-stats";
 
-import Blog from "./components/Blog";
 import { LoginForm } from "./components/LoginForm";
 import { NewBlogForm } from "./components/NewBlogForm";
 import { WithToggle } from "./components/WithToggle";
