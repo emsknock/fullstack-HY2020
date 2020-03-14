@@ -28,6 +28,7 @@ export const createBlog = (blog) => async dispatch => {
         type: "ADD_BLOG",
         data,
     });
+    dispatch(setNotification(`Added blog "${blog.title}"`));
 };
 export const removeBlog = (data) => async dispatch => {
     await axios.delete(`${BASE_URL}/${data.id}`, config());
@@ -35,6 +36,7 @@ export const removeBlog = (data) => async dispatch => {
         type: "REMOVE_BLOG",
         data,
     });
+    dispatch(setNotification(`Removed blog "${data.title}"`));
 };
 export const likeBlog = (blog) => async dispatch => {
     const data = {...blog, likes: blog.likes + 1};
@@ -47,6 +49,7 @@ export const likeBlog = (blog) => async dispatch => {
         type: "UPDATE_BLOG",
         data,
     });
+    dispatch(setNotification(`Liked "${blog.title}"`));
 };
 
 export default (state = defaultState, action) => {
